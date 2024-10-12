@@ -2,15 +2,20 @@ import { VStack, Button, FormControl, FormLabel, Input } from "@chakra-ui/react"
 import { useState } from "react";
 
 import {login} from "../endpoints/api";
+import {useAuth} from "../contexts/useAuth"
 
+import { useNavigate } from "react-router-dom";
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
+    const {login_user} = useAuth();
     const handleLogin = () => {
-        login(username, password)
+        login_user(username, password)
     }
-
+    const nav = useNavigate();
+    const handleNav = () => {
+        nav('/register')
+    }
     return (
         <VStack>
             <FormControl>
@@ -22,6 +27,7 @@ const Login = () => {
                 <Input onChange={(e) => setPassword(e.target.value)} value={password} type='password' />
             </FormControl>
             <Button onClick={handleLogin}> Login </Button>
+            <Button onClick={handleNav}>Don't have an account? Sign up</Button>
         </VStack>
     )
 }
